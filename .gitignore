@@ -1,0 +1,8 @@
+*.o
+*.swk
+*.swn
+*.swp
+*.swm
+*.swl
+./asp
+asp
