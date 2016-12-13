@@ -5,6 +5,8 @@
 
 class Define : public Token {
     public:
+        void execute(char ** argz);
+
         Define();
 };
 

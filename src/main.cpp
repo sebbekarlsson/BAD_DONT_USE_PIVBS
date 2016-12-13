@@ -6,9 +6,15 @@
 
 
 int main (int argc, char ** argv) {
-    L_LIB.push_back(*new If());
-    L_LIB.push_back(*new Else());
-    L_LIB.push_back(*new Define());
+    If i;
+    Else e;
+    Define d;
+    Print p;
+
+    L_LIB.push_back(&i);
+    L_LIB.push_back(&e);
+    L_LIB.push_back(&d);
+    L_LIB.push_back(&p);
 
     std::ifstream infile(argv[1]);
 
@@ -18,15 +24,22 @@ int main (int argc, char ** argv) {
 
         while(iss >> word) {
             Token * t = NULL;
+            char ** argz = NULL;
+
             for (auto it = begin (L_LIB); it != end (L_LIB); ++it) {
-                if (it->name == word) {
-                    t = &*it;
+                std::string n = word;
+                n = n.substr(0, n.find("(", 0));
+                
+                Token * tt = &**it;
+                if (tt->name == n) {
+                    t = &**it;
                 }
             }
             
             if (t == NULL) { continue; }
             
-            std::cout << t->name << std::endl;
+            std::cout << "FOUND TOKEN [ " << t->name << " ]" << std::endl;
+            t->execute(argz);    
         }
     }
 

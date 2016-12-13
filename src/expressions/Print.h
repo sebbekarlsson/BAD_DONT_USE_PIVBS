@@ -1,13 +1,13 @@
-#ifndef ELSE_H
-#define ELSE_H
+#ifndef PRINT_H
+#define PRINT_H
 #include "Token.h"
 
 
-class Else : public Token {
+class Print : public Token {
     public:
         void execute(char ** argz);
 
-        Else();
+        Print();
 };
 
 #endif

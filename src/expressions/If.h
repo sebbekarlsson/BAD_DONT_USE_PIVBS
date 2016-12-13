@@ -5,6 +5,8 @@
 
 class If : public Token {
     public:
+        void execute(char ** argz);
+
         If();
 };
 

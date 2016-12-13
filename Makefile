@@ -6,6 +6,7 @@ output:\
 	Else.o\
 	If.o\
 	Define.o\
+	Print.o\
 	main.o
 	    g++\
 		$(FLAGZ)\
@@ -13,6 +14,7 @@ output:\
 		Else.o\
 		If.o\
 		Define.o\
+		Print.o\
 		main.o\
 		-o asp
 
@@ -30,6 +32,9 @@ Else.o: src/expressions/Else.cpp src/expressions/Else.h
 
 Define.o: src/expressions/Define.cpp src/expressions/Define.h
 	g++ -std=c++11 -c src/expressions/Define.cpp
+
+Print.o: src/expressions/Print.cpp src/expressions/Print.h
+	g++ -std=c++11 -c src/expressions/Print.cpp
 
 clean:
 	rm *.o
