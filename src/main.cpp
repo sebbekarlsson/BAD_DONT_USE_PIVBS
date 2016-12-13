@@ -8,6 +8,7 @@
 int main (int argc, char ** argv) {
     L_LIB.push_back(*new If());
     L_LIB.push_back(*new Else());
+    L_LIB.push_back(*new Define());
 
     std::ifstream infile(argv[1]);
 

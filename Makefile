@@ -5,12 +5,14 @@ output:\
     	Token.o\
 	Else.o\
 	If.o\
+	Define.o\
 	main.o
 	    g++\
 		$(FLAGZ)\
 		Token.o\
 		Else.o\
 		If.o\
+		Define.o\
 		main.o\
 		-o asp
 
@@ -25,6 +27,9 @@ If.o: src/expressions/If.cpp src/expressions/If.h
 
 Else.o: src/expressions/Else.cpp src/expressions/Else.h
 	g++ -std=c++11 -c src/expressions/Else.cpp
+
+Define.o: src/expressions/Define.cpp src/expressions/Define.h
+	g++ -std=c++11 -c src/expressions/Define.cpp
 
 clean:
 	rm *.o
