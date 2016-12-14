@@ -7,15 +7,17 @@
 
 
 int main (int argc, char ** argv) {
-    If i;
-    Else e;
-    Define d;
-    Print p;
+    If L_if;
+    Else L_else;
+    Define L_define;
+    Print L_print;
+    Echo L_echo;
 
-    L_LIB.push_back(&i);
-    L_LIB.push_back(&e);
-    L_LIB.push_back(&d);
-    L_LIB.push_back(&p);
+    L_LIB.push_back(&L_if);
+    L_LIB.push_back(&L_else);
+    L_LIB.push_back(&L_define);
+    L_LIB.push_back(&L_print);
+    L_LIB.push_back(&L_echo);
 
     std::ifstream infile(argv[1]);
 

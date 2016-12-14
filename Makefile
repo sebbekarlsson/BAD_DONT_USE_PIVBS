@@ -7,6 +7,7 @@ output:\
 	If.o\
 	Define.o\
 	Print.o\
+	Echo.o\
 	main.o
 	    g++\
 		$(FLAGZ)\
@@ -15,6 +16,7 @@ output:\
 		If.o\
 		Define.o\
 		Print.o\
+		Echo.o\
 		main.o\
 		-o vbs
 
@@ -35,6 +37,9 @@ Define.o: src/expressions/Define.cpp src/expressions/Define.h
 
 Print.o: src/expressions/Print.cpp src/expressions/Print.h
 	g++ -std=c++11 -c src/expressions/Print.cpp
+
+Echo.o: src/expressions/Echo.cpp src/expressions/Echo.h
+	g++ -std=c++11 -c src/expressions/Echo.cpp
 
 clean:
 	rm *.o

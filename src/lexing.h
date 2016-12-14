@@ -3,6 +3,7 @@
 #include "expressions/Else.h"
 #include "expressions/Define.h"
 #include "expressions/Print.h"
+#include "expressions/Echo.h"
 #include <vector>
 
 
