@@ -1,14 +1,18 @@
-# ASP Runtime Environment
-> An ASP Classic interpreter
+# PIVBS
+> Platform Independent Visual Basic Script
 
+> This is a VBScript parser/interpreter which goal is to work
+> on every platform.
 
-## Install
-
+## Compiling and installing
+        
         make
-        mv ./asp /usr/bin/asp
 
 ## usage
 
-        asp yourscript.asp
+        vbs yourscript.vbs
 
+## ASP Classic
+> The interpreter also supports ASP Classic syntax.
 
+        vbs yourscript.asp

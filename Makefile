@@ -16,7 +16,7 @@ output:\
 		Define.o\
 		Print.o\
 		main.o\
-		-o asp
+		-o vbs
 
 main.o: src/main.cpp
 	g++ -std=c++11 -c src/main.cpp
