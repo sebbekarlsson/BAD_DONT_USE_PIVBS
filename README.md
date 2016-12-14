@@ -1,5 +1,5 @@
 # PIVBS
-> Platform Independent Visual Basic Script
+> Platform Independent Visual Basic Scripting
 
 > This is a VBScript parser/interpreter which goal is to work
 > on every platform.
