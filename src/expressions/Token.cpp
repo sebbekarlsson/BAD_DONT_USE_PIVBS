@@ -1,4 +1,6 @@
 #include "Token.h"
 
 
-Token::Token () {}
+Token::Token (Memory *memory) {
+    this->memory = memory;
+}

@@ -7,7 +7,7 @@ class If : public Token {
     public:
         void execute(std::vector<std::string> argz);
 
-        If();
+        If(Memory *memory);
 };
 
 #endif

@@ -7,7 +7,7 @@ class Echo : public Token {
     public:
         void execute(std::vector<std::string> argz);
 
-        Echo();
+        Echo(Memory *memory);
 };
 
 #endif

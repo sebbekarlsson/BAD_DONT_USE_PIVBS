@@ -3,21 +3,25 @@
 #include <string>
 #include <fstream>
 #include <cstring>
+#include <algorithm>
+#include "Memory.h"
 #include "lexing.h"
 
 
 int main (int argc, char ** argv) {
-    If L_if;
-    Else L_else;
-    Define L_define;
-    Print L_print;
-    Echo L_echo;
+    Memory memory;
 
-    L_LIB.push_back(&L_if);
-    L_LIB.push_back(&L_else);
-    L_LIB.push_back(&L_define);
-    L_LIB.push_back(&L_print);
-    L_LIB.push_back(&L_echo);
+    If* L_if = new If(&memory);
+    Else* L_else = new Else(&memory);
+    Define* L_define = new Define(&memory);
+    Print* L_print = new Print(&memory);
+    Echo* L_echo = new Echo(&memory);
+
+    L_LIB.push_back(&*L_if);
+    L_LIB.push_back(&*L_else);
+    L_LIB.push_back(&*L_define);
+    L_LIB.push_back(&*L_print);
+    L_LIB.push_back(&*L_echo);
 
     std::ifstream infile(argv[1]);
 
@@ -26,7 +30,14 @@ int main (int argc, char ** argv) {
         std::string word;
         std::vector<std::string> argz;
         std::string fargs = "";
-
+        std::string first_char = "";
+        
+        /* Ignore line if starts with comment */
+        if (line.size() > 1)
+            first_char = line.at(0);
+            if(first_char == "'")
+                continue;
+        
         unsigned first = line.find_first_of("(");
         unsigned last = line.find_last_of(")");
 
@@ -49,6 +60,17 @@ int main (int argc, char ** argv) {
             if (t == NULL) { continue; }
 
             if (fargs != "") {
+                if (fargs.at(0) == '"' && fargs.back() == '"') {
+                    unsigned first = fargs.find_first_of('"');
+                    unsigned last = fargs.find_last_of('"');
+
+                    if (first < 1000 && last < 1000)
+                        fargs = fargs.substr(first+1, (last-1) - first);
+                } else {
+                    if (t->name != "Dim")
+                        fargs = memory.getVar(fargs);
+                }
+
                 argz.push_back(fargs);
             }
 

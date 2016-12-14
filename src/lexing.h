@@ -7,4 +7,5 @@
 #include <vector>
 
 
+Memory m;
 std::vector<Token*> L_LIB;

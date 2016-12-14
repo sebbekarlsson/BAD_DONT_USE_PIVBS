@@ -7,7 +7,7 @@ class Else : public Token {
     public:
         void execute(std::vector<std::string> argz);
 
-        Else();
+        Else(Memory *memory);
 };
 
 #endif

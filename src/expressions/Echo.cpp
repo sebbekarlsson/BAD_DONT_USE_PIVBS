@@ -1,7 +1,7 @@
 #include "Echo.h"
 
 
-Echo::Echo() : Token () {
+Echo::Echo(Memory *memory) : Token (memory) {
     this->name = "Wscript.Echo";
 }
 

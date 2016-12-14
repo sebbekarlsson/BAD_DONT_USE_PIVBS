@@ -2,6 +2,7 @@ FLAGZ="-std=c++11"
 
 
 output:\
+        Memory.o\
     	Token.o\
 	Else.o\
 	If.o\
@@ -11,6 +12,7 @@ output:\
 	main.o
 	    g++\
 		$(FLAGZ)\
+		Memory.o\
 		Token.o\
 		Else.o\
 		If.o\
@@ -22,6 +24,9 @@ output:\
 
 main.o: src/main.cpp
 	g++ -std=c++11 -c src/main.cpp
+
+Memory.o: src/Memory.cpp src/Memory.h
+	g++ -std=c++11 -c src/Memory.cpp
 
 Token.o: src/expressions/Token.cpp src/expressions/Token.h
 	g++ -std=c++11 -c src/expressions/Token.cpp

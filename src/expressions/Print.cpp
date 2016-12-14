@@ -1,7 +1,7 @@
 #include "Print.h"
 
 
-Print::Print() : Token () {
+Print::Print(Memory *memory) : Token (memory) {
     this->name = "response.write";
 }
 

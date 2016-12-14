@@ -1,8 +1,10 @@
 #include "Define.h"
 
 
-Define::Define() : Token () {
+Define::Define(Memory *memory) : Token (memory) {
     this->name = "Dim";
 }
 
-void Define::execute (std::vector<std::string> argz) {}
+void Define::execute (std::vector<std::string> argz) {
+    memory->defineVar(argz[0], "NULL");
+}

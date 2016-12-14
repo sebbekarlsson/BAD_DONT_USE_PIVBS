@@ -1,7 +1,7 @@
 #include "Else.h"
 
 
-Else::Else() : Token () {
+Else::Else(Memory *memory) : Token (memory) {
     this->name = "Else";
 }
 

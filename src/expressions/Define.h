@@ -7,7 +7,7 @@ class Define : public Token {
     public:
         void execute(std::vector<std::string> argz);
 
-        Define();
+        Define(Memory *memory);
 };
 
 #endif
