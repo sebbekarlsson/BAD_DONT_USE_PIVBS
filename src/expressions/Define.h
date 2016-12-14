@@ -5,7 +5,7 @@
 
 class Define : public Token {
     public:
-        void execute(char ** argz);
+        void execute(std::vector<std::string> argz);
 
         Define();
 };

@@ -5,4 +5,4 @@ Define::Define() : Token () {
     this->name = "Dim";
 }
 
-void Define::execute (char ** argz) {}
+void Define::execute (std::vector<std::string> argz) {}

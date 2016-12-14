@@ -5,4 +5,4 @@ Else::Else() : Token () {
     this->name = "Else";
 }
 
-void Else::execute(char ** argz) {}
+void Else::execute(std::vector<std::string> argz) {}

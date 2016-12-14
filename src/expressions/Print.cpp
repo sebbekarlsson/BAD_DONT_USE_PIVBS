@@ -5,6 +5,6 @@ Print::Print() : Token () {
     this->name = "response.write";
 }
 
-void Print::execute(char ** argz) {
-    std::cout << argz << std::endl;
+void Print::execute(std::vector<std::string> argz) {
+    std::cout << argz[0] << std::endl;
 }

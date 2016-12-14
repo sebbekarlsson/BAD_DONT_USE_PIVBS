@@ -1,6 +1,7 @@
 #ifndef TOKEN_H
 #define TOKEN_H
 #include <iostream>
+#include <vector>
 
 
 class Token {
@@ -8,7 +9,7 @@ class Token {
         std::string name;
         std::string closing_name;
         
-        virtual void execute(char ** argz) = 0;
+        virtual void execute(std::vector<std::string> argz) = 0;
 
         Token();
 };

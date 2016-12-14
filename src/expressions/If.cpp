@@ -6,4 +6,4 @@ If::If() : Token() {
     this->closing_name = "End If";
 }
 
-void If::execute(char ** argz) {}
+void If::execute(std::vector<std::string> argz) {}
