@@ -1,6 +1,8 @@
 # PIVBS
 > Platform Independent Visual Basic Scripting
 
+> (It is basically a port from Windows to Unix-like systems)
+
 > This is a VBScript parser/interpreter which goal is to work
 > on every platform.
 
