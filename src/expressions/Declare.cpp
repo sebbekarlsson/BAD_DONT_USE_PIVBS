@@ -14,12 +14,13 @@ void Declare::execute (std::vector<std::string> argz) {
         exit(1);
     }
 
-    while(argz[1].find("\"") != std::string::npos) {
-        argz[1].replace(
-                argz[1].find("\""),
-                std::string("\"").size(),
-                ""
-                );
+    if (isQuoted(argz[0])) {
+        argz[0] = unquote(argz[0]);
     }
+
+    if (isQuoted(argz[1])) {
+        argz[1] = unquote(argz[1]);
+    }
+
     memory->defineVar(argz[0], argz[1]);
 }

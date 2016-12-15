@@ -5,6 +5,7 @@
 #include <cstring>
 #include <algorithm>
 #include "Memory.h"
+#include "stringtools.h"
 #include "lexing.h"
 
 
@@ -83,6 +84,7 @@ int main (int argc, char ** argv) {
                                 std::string(" ").size(),
                                 ""
                                 );
+
                     }
                     argz.push_back(ztem);
                 }
@@ -92,7 +94,7 @@ int main (int argc, char ** argv) {
             
             /* Parse expressions, (Dim, If, Else.. etc) */
             first = line.find_first_of(" ");
-            if (first < 1000 && !call) {
+            if (first < 1000 && !call && !expr) {
                 fargs = line.substr(first+1, (line.size()-1) - first);
                 expr = true;
             }
@@ -100,13 +102,28 @@ int main (int argc, char ** argv) {
             if (fargs != "") {
 
                 /* Check if trying to access variable */
-                if (fargs.at(0) == '"' && fargs.back() == '"') {
-                    unsigned first = fargs.find_first_of('"');
-                    unsigned last = fargs.find_last_of('"');
+                if (fargs.at(0) == '"') {
+                    if (fargs.back() == '"') {
+                        unsigned first = fargs.find_first_of('"');
+                        unsigned last = fargs.find_last_of('"');
 
-                    if (first < 1000 && last < 1000) {
-                        fargs = fargs.substr(first+1, (last-1) - first);
-                        /* Not a variable */
+                        if (first < 1000 && last < 1000) {
+                            fargs = fargs.substr(first+1, (last-1) - first);
+                            /* Not a variable */
+                        }
+                    } else {
+                        //std::vector<std::string> elems;
+                        std::stringstream ss;
+                        ss.str(fargs);
+                        std::string item;
+                        fargs = "";
+                        while (std::getline(ss, item, '+')) {
+                            if (isQuoted(item)) {
+                                fargs += unquote(item);
+                            } else {
+                                fargs += memory.getVar(strReplace(" ", "", item));
+                            }
+                        }
                     }
                 } else {
                     /* Probably a variable */

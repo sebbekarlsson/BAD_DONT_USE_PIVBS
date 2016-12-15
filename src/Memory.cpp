@@ -10,5 +10,12 @@ void Memory::defineVar(std::string key, std::string value) {
 }
 
 std::string Memory::getVar(std::string key) {
+    if (this->vars.count(key) == 0) {
+        std::cerr <<
+            "[ERROR]: Trying to assign undeclared variable: " << key <<
+            " - Please use 'Dim'"
+            << std::endl;
+        exit(1);
+    }
     return this->vars[key];
 }

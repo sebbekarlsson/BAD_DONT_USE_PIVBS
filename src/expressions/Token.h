@@ -5,6 +5,11 @@
 #include "../Memory.h"
 
 
+bool isQuoted(std::string str);
+std::string strReplace(std::string ori, std::string _new, std::string str);
+std::string unquote(std::string str);
+
+
 class Token {
     public:
         std::string name;
