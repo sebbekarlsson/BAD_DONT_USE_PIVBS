@@ -7,6 +7,7 @@ output:\
 	Else.o\
 	If.o\
 	Define.o\
+	Declare.o\
 	Print.o\
 	Echo.o\
 	main.o
@@ -17,6 +18,7 @@ output:\
 		Else.o\
 		If.o\
 		Define.o\
+		Declare.o\
 		Print.o\
 		Echo.o\
 		main.o\
@@ -39,6 +41,9 @@ Else.o: src/expressions/Else.cpp src/expressions/Else.h
 
 Define.o: src/expressions/Define.cpp src/expressions/Define.h
 	g++ -std=c++11 -c src/expressions/Define.cpp
+
+Declare.o: src/expressions/Declare.cpp src/expressions/Declare.h
+	g++ -std=c++11 -c src/expressions/Declare.cpp
 
 Print.o: src/expressions/Print.cpp src/expressions/Print.h
 	g++ -std=c++11 -c src/expressions/Print.cpp

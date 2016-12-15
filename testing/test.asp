@@ -1,5 +1,4 @@
 <%
-
 Dim x, y, z
 x = Array(1, 2, 3)
 
@@ -13,5 +12,7 @@ If i < 10 Then
 Else
     response.write("Have a nice day!")
 End If
+
+response.write(x, y, z)
 
 %>

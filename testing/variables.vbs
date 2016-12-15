@@ -1,5 +1,11 @@
-Dim(myVar)
+Dim x, y
+Dim z
 
-myVar = "VisualBasic"
+y = "Yo"
 
-response.write(myVar)
+bepa = 2
+
+
+response.write(x)
+response.write(y)
+response.write(z)

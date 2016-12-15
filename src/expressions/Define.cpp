@@ -6,5 +6,8 @@ Define::Define(Memory *memory) : Token (memory) {
 }
 
 void Define::execute (std::vector<std::string> argz) {
-    memory->defineVar(argz[0], "NULL");
+    
+    for (auto it = begin (argz); it != end (argz); ++it) {
+        memory->defineVar(*it, "NULL");
+    }
 }

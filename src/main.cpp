@@ -14,12 +14,14 @@ int main (int argc, char ** argv) {
     If* L_if = new If(&memory);
     Else* L_else = new Else(&memory);
     Define* L_define = new Define(&memory);
+    Declare* L_declare = new Declare(&memory);
     Print* L_print = new Print(&memory);
     Echo* L_echo = new Echo(&memory);
 
     L_LIB.push_back(&*L_if);
     L_LIB.push_back(&*L_else);
     L_LIB.push_back(&*L_define);
+    L_LIB.push_back(&*L_declare);
     L_LIB.push_back(&*L_print);
     L_LIB.push_back(&*L_echo);
 
@@ -31,18 +33,28 @@ int main (int argc, char ** argv) {
         std::vector<std::string> argz;
         std::string fargs = "";
         std::string first_char = "";
-        
-        /* Ignore line if starts with comment */
-        if (line.size() > 1)
-            first_char = line.at(0);
-            if(first_char == "'")
-                continue;
-        
-        unsigned first = line.find_first_of("(");
-        unsigned last = line.find_last_of(")");
+        unsigned first = 0;
+        unsigned last = 0;
+        bool call = false;
+        bool expr = false;
 
-        if (first < 1000 && last < 1000)
+        /* Ignore line if starts with comment */
+        if (line.size() > 1) {
+            first_char = line.at(0);
+            if(first_char == "'") {
+                continue;
+            }
+        }
+        
+        /* Parse function-call arguments */
+        first = line.find_first_of("(");
+        last = line.find_last_of(")");
+        if (first < 1000 && last < 1000) {
             fargs = line.substr(first+1, (last-1) - first);
+            first = 0;
+            last = 0;
+            call = true;
+        }
 
         while(iss >> word) {
             Token * t = NULL;
@@ -56,19 +68,73 @@ int main (int argc, char ** argv) {
                     t = &**it;
                 }
             }
-
             if (t == NULL) { continue; }
+            
+            /* Parse assignments */
+            if (t->name == "=") {
+                std::vector<std::string> elemz;
+                std::stringstream sss;
+                sss.str(line);
+                std::string ztem;
+                while (std::getline(sss, ztem, '=')) {
+                    while(ztem.find(" ") != std::string::npos) {
+                        ztem.replace(
+                                ztem.find(" "),
+                                std::string(" ").size(),
+                                ""
+                                );
+                    }
+                    argz.push_back(ztem);
+                }
+
+                expr = true;
+            }
+            
+            /* Parse expressions, (Dim, If, Else.. etc) */
+            first = line.find_first_of(" ");
+            if (first < 1000 && !call) {
+                fargs = line.substr(first+1, (line.size()-1) - first);
+                expr = true;
+            }
 
             if (fargs != "") {
+
+                /* Check if trying to access variable */
                 if (fargs.at(0) == '"' && fargs.back() == '"') {
                     unsigned first = fargs.find_first_of('"');
                     unsigned last = fargs.find_last_of('"');
 
-                    if (first < 1000 && last < 1000)
+                    if (first < 1000 && last < 1000) {
                         fargs = fargs.substr(first+1, (last-1) - first);
+                        /* Not a variable */
+                    }
                 } else {
-                    if (t->name != "Dim")
+                    /* Probably a variable */
+                    if (t->name != "Dim") {
                         fargs = memory.getVar(fargs);
+                    }
+                }
+
+                if (expr) {
+                    /* Parse expression data */
+                    if (fargs.find(",") != std::string::npos) {
+                        std::vector<std::string> elems;
+                        std::stringstream ss;
+                        ss.str(fargs);
+                        std::string item;
+                        while (std::getline(ss, item, ',')) {
+                            while(item.find(" ") != std::string::npos) {
+                                item.replace(
+                                        item.find(" "),
+                                        std::string(" ").size(),
+                                        ""
+                                        );
+                            }
+                            elems.push_back(item);
+                        }
+                        
+                        argz = elems;
+                    }
                 }
 
                 argz.push_back(fargs);
