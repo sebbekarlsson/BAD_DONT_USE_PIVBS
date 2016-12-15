@@ -25,12 +25,5 @@
 
         vbs yourscript.asp
 
-# Oh god
-> Oh god why, what am I even doing with my life, writing ASP/VBS interpreters.
-> This project is of no use to anyone, and anyone who would even use it are
-> wasting their time.
-
-> Everyone hates VBS and ASP anyways, why did my brain think it was a good
-> idea to do this... Ah well.
-
-> Feel free to contribute.
+## Why
+> Why did my brain think it was a good idea to do this...
