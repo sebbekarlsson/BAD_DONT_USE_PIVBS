@@ -100,7 +100,6 @@ int main (int argc, char ** argv) {
             }
 
             if (fargs != "") {
-
                 /* Check if trying to access variable */
                 if (fargs.at(0) == '"') {
                     if (fargs.back() == '"') {
@@ -149,7 +148,7 @@ int main (int argc, char ** argv) {
                             }
                             elems.push_back(item);
                         }
-                        
+
                         argz = elems;
                     }
                 }
