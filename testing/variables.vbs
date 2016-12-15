@@ -1,11 +1,19 @@
-Dim x, y
-Dim z
-
-y = "Yo"
-
-bepa = 2
+Dim a, b, c
+Dim userName
 
 
-response.write(x)
-response.write(y)
-response.write(z)
+userName = "CoolUserxx123"
+
+response.write("The userName is:")
+response.write(userName)
+
+'should return NULL
+response.write(a)
+
+'should return NULL
+response.write(b)
+
+'should return NULL
+response.write(c)
+
+response.write("PROGRAM FINISHED")
