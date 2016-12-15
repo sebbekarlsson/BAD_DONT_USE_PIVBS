@@ -16,9 +16,11 @@
         
         make
 
+> This will generate a binary called "vbs"
+
 ## usage
 
-        vbs yourscript.vbs
+        ./vbs yourscript.vbs
 
 ## ASP Classic
 > The interpreter also supports ASP Classic syntax.
