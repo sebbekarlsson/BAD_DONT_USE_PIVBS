@@ -25,4 +25,4 @@
 
         vbs yourscript.asp
 
-### Don't take this project to seriously.
+### Don't take this project too seriously.
