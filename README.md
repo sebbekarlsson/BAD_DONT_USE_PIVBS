@@ -25,5 +25,4 @@
 
         vbs yourscript.asp
 
-## Why
-> Why did my brain think it was a good idea to do this...
+### Don't take this project to seriously.
