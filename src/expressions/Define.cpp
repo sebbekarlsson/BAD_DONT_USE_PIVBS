@@ -1,7 +1,7 @@
 #include "Define.h"
 
 
-Define::Define(Memory *memory) : Token (memory) {
+Define::Define(Memory *memory, std::vector<Token*> *L_LIB) : Token (memory, L_LIB) {
     this->name = "Dim";
 }
 

@@ -1,18 +1,21 @@
 <%
-Dim x, y, z
-x = Array(1, 2, 3)
+Dim x, y, z, arr, elem
 
-For Each y In x
-    response.write(y) 
+x = "Hello World"
+y = "John Doe"
+arr = Array(x, y, z)
+
+response.write(x)
+
+For Each elem In arr
+    response.write(elem) 
 Next
 
 
 If i < 10 Then
-    response.write("Good morning!")
+    response.write(x)
 Else
-    response.write("Have a nice day!")
+    response.write(y)
 End If
-
-response.write(x, y, z)
 
 %>

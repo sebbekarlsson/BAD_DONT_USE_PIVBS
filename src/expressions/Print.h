@@ -7,7 +7,7 @@ class Print : public Token {
     public:
         void execute(std::vector<std::string> argz);
 
-        Print(Memory *memory);
+        Print(Memory *memory, std::vector<Token*> *L_LIB);
 };
 
 #endif

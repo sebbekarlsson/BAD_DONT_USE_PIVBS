@@ -5,19 +5,20 @@
 #include <cstring>
 #include <algorithm>
 #include "Memory.h"
-#include "stringtools.h"
 #include "lexing.h"
+#include "stringtools.h"
 
 
 int main (int argc, char ** argv) {
     Memory memory;
 
-    If* L_if = new If(&memory);
-    Else* L_else = new Else(&memory);
-    Define* L_define = new Define(&memory);
-    Declare* L_declare = new Declare(&memory);
-    Print* L_print = new Print(&memory);
-    Echo* L_echo = new Echo(&memory);
+    If* L_if = new If(&memory, &L_LIB);
+    Else* L_else = new Else(&memory, &L_LIB);
+    Define* L_define = new Define(&memory, &L_LIB);
+    Declare* L_declare = new Declare(&memory, &L_LIB);
+    Print* L_print = new Print(&memory, &L_LIB);
+    Echo* L_echo = new Echo(&memory, &L_LIB);
+    Open* L_open = new Open(&memory, &L_LIB);
 
     L_LIB.push_back(&*L_if);
     L_LIB.push_back(&*L_else);
@@ -25,20 +26,23 @@ int main (int argc, char ** argv) {
     L_LIB.push_back(&*L_declare);
     L_LIB.push_back(&*L_print);
     L_LIB.push_back(&*L_echo);
+    L_LIB.push_back(&*L_open);
 
     std::ifstream infile(argv[1]);
 
     for(std::string line; getline(infile, line);) {
         std::istringstream iss(line);
         std::string word;
-        std::vector<std::string> argz;
-        std::string fargs = "";
+        std::vector<std::string> executionArgs;
+        std::string unparsedArgs = "";
         std::string first_char = "";
-        unsigned first = 0;
-        unsigned last = 0;
-        bool call = false;
-        bool expr = false;
-
+        first = 0;
+        last = 0;
+        call = false;
+        statement = false;
+        argsParseDone = false;
+        inlineCall = false;
+        
         /* Ignore line if starts with comment */
         if (line.size() > 1) {
             first_char = line.at(0);
@@ -51,24 +55,14 @@ int main (int argc, char ** argv) {
         first = line.find_first_of("(");
         last = line.find_last_of(")");
         if (first < 1000 && last < 1000) {
-            fargs = line.substr(first+1, (last-1) - first);
+            unparsedArgs = line.substr(first+1, (last-1) - first);
             first = 0;
             last = 0;
             call = true;
         }
 
         while(iss >> word) {
-            Token * t = NULL;
-
-            for (auto it = begin (L_LIB); it != end (L_LIB); ++it) {
-                std::string n = word;
-                n = n.substr(0, n.find("(", 0));
-
-                Token * tt = &**it;
-                if (tt->name == n) {
-                    t = &**it;
-                }
-            }
+            Token * t = findToken(word, L_LIB);
             if (t == NULL) { continue; }
             
             /* Parse assignments */
@@ -77,66 +71,87 @@ int main (int argc, char ** argv) {
                 std::stringstream sss;
                 sss.str(line);
                 std::string ztem;
+                int eCount = 0;
                 while (std::getline(sss, ztem, '=')) {
-                    while(ztem.find(" ") != std::string::npos) {
-                        ztem.replace(
-                                ztem.find(" "),
-                                std::string(" ").size(),
-                                ""
-                                );
+                    std::stringstream ss;
+                    std::string item;
+                    ss.str(ztem);
+                    std::string realztem = "";
 
+                    while (std::getline(ss, item, '+')) {
+                        item = strReplace(" \"", "\"", item);
+                        
+                        if (isQuoted(item)) {
+                            realztem += unquote(item);
+                        } else if (item.find("(") == std::string::npos)  {
+                            realztem += memory.getVar(strReplace(" ", "", item));
+                        }
+
+                        if (eCount == 0) { realztem = item; }
                     }
-                    argz.push_back(ztem);
+                    
+                    if (!isQuoted(realztem)) {
+                        realztem = strReplace(" ", "", realztem);
+                    }
+
+                    if (realztem == "") { realztem = ztem; }
+                    
+                    executionArgs.push_back(realztem);
+                    eCount++;
                 }
 
-                expr = true;
+                statement = true;
             }
             
-            /* Parse expressions, (Dim, If, Else.. etc) */
+            /* Parse tokens, (Dim, If, Else.. etc) */
             first = line.find_first_of(" ");
-            if (first < 1000 && !call && !expr) {
-                fargs = line.substr(first+1, (line.size()-1) - first);
-                expr = true;
+            if (first < 1000 && !call && !statement) {
+                unparsedArgs = line.substr(first+1, (line.size()-1) - first);
+                statement = true;
             }
 
-            if (fargs != "") {
+            if (unparsedArgs != "") {
                 /* Check if trying to access variable */
-                if (fargs.at(0) == '"') {
-                    if (fargs.back() == '"') {
-                        unsigned first = fargs.find_first_of('"');
-                        unsigned last = fargs.find_last_of('"');
+
+                if (unparsedArgs.at(0) == '"') {
+                    if (unparsedArgs.back() == '"') {
+                        unsigned first = unparsedArgs.find_first_of('"');
+                        unsigned last = unparsedArgs.find_last_of('"');
 
                         if (first < 1000 && last < 1000) {
-                            fargs = fargs.substr(first+1, (last-1) - first);
                             /* Not a variable */
+
+                            unparsedArgs = unparsedArgs.substr(first+1, (last-1) - first);
                         }
                     } else {
-                        //std::vector<std::string> elems;
                         std::stringstream ss;
-                        ss.str(fargs);
+                        ss.str(unparsedArgs);
                         std::string item;
-                        fargs = "";
+                        unparsedArgs = "";
+
                         while (std::getline(ss, item, '+')) {
                             if (isQuoted(item)) {
-                                fargs += unquote(item);
+                                unparsedArgs += unquote(item);
                             } else {
-                                fargs += memory.getVar(strReplace(" ", "", item));
+                                unparsedArgs += memory.getVar(strReplace(" ", "", item));
                             }
                         }
                     }
                 } else {
                     /* Probably a variable */
-                    if (t->name != "Dim") {
-                        fargs = memory.getVar(fargs);
+
+                    if (t->name != L_define->name && !argsParseDone && !statement) {
+                        unparsedArgs = memory.getVar(unparsedArgs);
                     }
                 }
 
-                if (expr) {
-                    /* Parse expression data */
-                    if (fargs.find(",") != std::string::npos) {
+                if (statement) {
+                    /* Parse statement data */
+
+                    if (unparsedArgs.find(",") != std::string::npos && !argsParseDone) {
                         std::vector<std::string> elems;
                         std::stringstream ss;
-                        ss.str(fargs);
+                        ss.str(unparsedArgs);
                         std::string item;
                         while (std::getline(ss, item, ',')) {
                             while(item.find(" ") != std::string::npos) {
@@ -149,14 +164,16 @@ int main (int argc, char ** argv) {
                             elems.push_back(item);
                         }
 
-                        argz = elems;
+                        executionArgs = elems;
                     }
                 }
 
-                argz.push_back(fargs);
+                executionArgs.push_back(unparsedArgs);
             }
-
-            t->execute(argz);    
+            
+            if (!inlineCall) {
+                t->execute(executionArgs);
+            } 
         }
     }
 

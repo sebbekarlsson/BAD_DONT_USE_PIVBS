@@ -1,7 +1,7 @@
 #include "Else.h"
 
 
-Else::Else(Memory *memory) : Token (memory) {
+Else::Else(Memory *memory, std::vector<Token*> *L_LIB) : Token (memory, L_LIB) {
     this->name = "Else";
 }
 

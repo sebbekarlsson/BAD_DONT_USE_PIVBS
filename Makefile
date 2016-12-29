@@ -10,6 +10,7 @@ output:\
 	Declare.o\
 	Print.o\
 	Echo.o\
+	Open.o\
 	main.o
 	    g++\
 		$(FLAGZ)\
@@ -21,7 +22,9 @@ output:\
 		Declare.o\
 		Print.o\
 		Echo.o\
+		Open.o\
 		main.o\
+		-lresourcemanager\
 		-o vbs
 
 main.o: src/main.cpp
@@ -50,6 +53,9 @@ Print.o: src/expressions/Print.cpp src/expressions/Print.h
 
 Echo.o: src/expressions/Echo.cpp src/expressions/Echo.h
 	g++ -std=c++11 -c src/expressions/Echo.cpp
+
+Open.o: src/expressions/Open.cpp src/expressions/Open.h
+	g++ -std=c++11 -c src/expressions/Open.cpp
 
 clean:
 	rm *.o

@@ -1,11 +1,15 @@
-Dim a, b, c
+Dim a, b, c, apa
 Dim userName
 
+
+apa = 2
+
+response.write(apa)
 
 userName = "CoolUserxx123"
 c = "!"
 
-response.write("The userName is:" + userName + c)
+response.write("The userName is:" + userName + c + apa)
 response.write(userName)
 
 'should return NULL
