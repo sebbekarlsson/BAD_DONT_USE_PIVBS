@@ -6,6 +6,7 @@
 
 
 bool isQuoted(std::string str);
+bool isNumeric(const std::string& s);
 std::string strReplace(std::string ori, std::string _new, std::string str);
 std::string unquote(std::string str);
 std::string extractArguments(std::string line);

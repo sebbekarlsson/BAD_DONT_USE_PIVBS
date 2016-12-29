@@ -7,6 +7,12 @@ bool isQuoted(std::string str) {
         str.find_last_of('"') != 0;
 }
 
+bool isNumeric(const std::string& s) {
+    std::string::const_iterator it = s.begin();
+    while (it != s.end() && std::isdigit(*it)) ++it;
+    return !s.empty() && it == s.end();
+}
+
 std::string strReplace(std::string ori, std::string _new, std::string str) {
     while(str.find(ori) != std::string::npos) {
         str.replace(

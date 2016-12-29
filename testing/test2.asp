@@ -1,7 +1,7 @@
 <%
 
 Dim q,w,e,r,t,y,u,i,o,p,a,s,d,f,g,h,j,k,l,z,x,c,v,b,n,m
-Dim fname, r_str,
+Dim fname, r_str
 
 
 fname = "testing/example.txt"
@@ -33,6 +33,7 @@ v = r_str
 b = r_str
 n = r_str
 m = r_str
+m = 2
 
 response.write(q)
 response.write(w)

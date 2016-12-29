@@ -84,7 +84,22 @@ int main (int argc, char ** argv) {
                         if (isQuoted(item)) {
                             realztem += unquote(item);
                         } else if (item.find("(") == std::string::npos)  {
-                            realztem += memory.getVar(strReplace(" ", "", item));
+                            item = strReplace(" ", "", item);
+
+                            if (!isNumeric(item)) {
+                                std::string varValue = memory.getVar(item);
+                                if (isNumeric(varValue) && realztem != "") {
+                                    realztem = std::to_string(std::stoi(varValue) + std::stoi(realztem)); 
+                                } else {
+                                    realztem += varValue;
+                                }
+                            } else {
+                                if (realztem != "") {
+                                    realztem = std::to_string(std::stoi(item) + std::stoi(realztem));
+                                } else {
+                                    realztem += item; 
+                                }
+                            }
                         }
 
                         if (eCount == 0) { realztem = item; }
